@@ -43,5 +43,10 @@ namespace KillerAppV2ASP.Models.DBO
         {
             return context.TryLogin(username, password);
         }
+
+        public List<Character> GetCharactersFromUser(int userID)
+        {
+            return context.GetCharactersFromUser(userID);
+        }
     }
 }

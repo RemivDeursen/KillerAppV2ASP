@@ -7,13 +7,15 @@ namespace KillerAppV2ASP.Models
 {
     public class Character
     {
-        public string name { get; private set; }
-        public int HP { get; private set; }
-        public int Mana { get; private set; }
+        public int CharacterID { get; set; }
+        public string Name { get; set; }
+        public int HP { get; set; }
+        public int Mana { get; set; }
 
-        public Character(string name, int HP, int Mana)
+        public Character(int CharacterID, string name, int HP, int Mana)
         {
-            this.name = name;
+            this.CharacterID = CharacterID;
+            this.Name = name;
             this.HP = HP;
             this.Mana = Mana;
         }

@@ -12,7 +12,6 @@ namespace KillerAppV2ASP.Controllers
         private EventSystem Events;
         public ActionResult Index()
         {
-            Events = new EventSystem(new Player("Bob", 50, 50));
             return View("Index", Events);
         }
     }

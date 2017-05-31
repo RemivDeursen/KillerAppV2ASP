@@ -15,6 +15,7 @@ namespace KillerAppV2ASP.Models.DBO
         List<string> GetStory();
         DataTable GetItems();
         List<Item> GetInventory(string name);
+        List<Character> GetCharactersFromUser(int userId);
 
     }
 }

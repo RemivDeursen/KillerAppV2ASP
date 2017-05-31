@@ -7,7 +7,7 @@ namespace KillerAppV2ASP.Models
 {
     public class Player : Character
     {
-        public Player(string name, int HP, int Mana) : base (name, HP, Mana)
+        public Player(int CharacterID, string name, int HP, int Mana) : base (CharacterID, name, HP, Mana)
         {
 
         }
