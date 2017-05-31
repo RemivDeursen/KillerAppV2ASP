@@ -6,25 +6,6 @@
 
 <h2>Intro</h2>
 
-<div style="overflow: auto; height: 200px; width: auto">
-    <asp:TextBox ID="TextBox1" style="overflow: auto" runat="server" Width="100px" Rows="3" ReadOnly="true"
-                 BorderStyle="None" BorderWidth="0" TextMode="MultiLine" Text='<%# Eval("Notes") %>'
-                 BackColor="#222222" ForeColor="White">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
-    </asp:TextBox>
-</div>
     <h2>Select Characters</h2>
     <ul>
         @foreach (var character in Model.Characters)

@@ -1,8 +1,29 @@
-﻿
+﻿@model KillerAppV2ASP.Models.EventSystem
 @{
     ViewBag.Title = "RPGgame";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>RPGgame</h2>
+<h2>RPGgame Story</h2>
 
+
+<div style="overflow: auto; height: 200px; width: auto">
+    <asp:TextBox ID="TextBox1" style="overflow: auto" runat="server" Width="100px" Rows="3" ReadOnly="true"
+                 BorderStyle="None" BorderWidth="0" TextMode="MultiLine" Text='<%# Eval("Notes") %>'
+                 BackColor="#222222" ForeColor="White">
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+        <p>Integer vel ligula eleifend, lacinia dui egestas, aliquam ipsum.</p>
+    </asp:TextBox>
+</div>

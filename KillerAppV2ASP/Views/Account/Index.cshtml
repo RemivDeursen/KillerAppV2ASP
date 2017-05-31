@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h2>Login page</h2>
+</div>
+
+<form id="form1" runat="server">
+    <asp:Login ID="Login1" runat="server" OnAuthenticate="ValidateUser"></asp:Login>
+</form>
