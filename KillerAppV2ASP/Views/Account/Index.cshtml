@@ -5,9 +5,8 @@
 }
 
 <div class="jumbotron">
-    <h2>Login page</h2>
+    <h1>Account Page</h1>
 </div>
+        @Html.ActionLink("Login now", "Login", "Account", new {@class="btn btn-primary"})
+        @Html.ActionLink("Create account", "Register", "Account", new { @class = "btn btn-primary" })
 
-<form id="form1" runat="server">
-    <asp:Login ID="Login1" runat="server" OnAuthenticate="ValidateUser"></asp:Login>
-</form>

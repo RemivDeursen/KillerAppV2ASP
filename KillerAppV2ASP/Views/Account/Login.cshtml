@@ -1,0 +1,15 @@
+﻿@model KillerAppV2ASP.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+@*
+    Bezig met toevoegen van een text input    
+*@
+<div class="form-group">
+    @Html.LabelFor(model => model.Username, new { @class = "sr-only", @for = "txtVenueID" })
+    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @placeholder = "ID:", @id = "txtVenueID" })
+    @Html.ValidationMessageFor(model => model.Username)
+</div>
