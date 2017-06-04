@@ -1,15 +1,34 @@
-﻿@model KillerAppV2ASP.ViewModels.CharacterViewModel
+﻿@using KillerAppV2ASP.Models
+@model KillerAppV2ASP.ViewModels.CharacterViewModel
 @{
     ViewBag.Title = "Character";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Selecteer of creeer je character</h2>
 
-<h2>Intro</h2>
+<div class="jumbotron">
+    <div class="row">
+        
+        <div class="col-lg-5 list-group">
+            @if (Model.Characters != null)
+            {
+                foreach (var character in Model.Characters)
+                {
+                    <a class="list-group-item" id="">
+                        @character.Name
+                        
 
-    <h2>Select Characters</h2>
-    <ul>
-        @foreach (var character in Model.Characters)
-        {
-            <li>@character.Name</li>
-        }
-    </ul>
+                        <span class="pull-right">
+                            <a class="btn btn-success" href="@Url.Action("Play", "RPG", new { id = character.CharacterID })"> Play! </a>
+
+                            <!--<input type="button" value="Play!" class="btn btn-success" onclick="location.href = ''">-->
+                        </span>
+                    </a>
+                }
+            }
+        </div>
+        <div class="col-lg-10">
+            <input type="button" value="Maak nieuw character" class="btn btn-success" name="btnNewChar" id="btnNewChar" onclick="location.href = '@Url.Action("Play", "RPG")'"/>
+        </div>
+    </div>
+</div>

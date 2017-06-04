@@ -1,15 +1,45 @@
-﻿@model KillerAppV2ASP.Models.User
+﻿@model KillerAppV2ASP.ViewModels.UserLoginViewModel
+
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Login</h2>
-@*
-    Bezig met toevoegen van een text input    
-*@
-<div class="form-group">
-    @Html.LabelFor(model => model.Username, new { @class = "sr-only", @for = "txtVenueID" })
-    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @placeholder = "ID:", @id = "txtVenueID" })
-    @Html.ValidationMessageFor(model => model.Username)
+<h2>Welkom bij de beste webgame van het jaar!</h2>
+<div class="jumbotron">
+
+
+    <div class="row">
+        <div class="col-lg-11">
+            <p>Login met je gebruikersnaam</p>
+        </div>
+
+    </div>
+    @if (@Model.Loggedin == false)
+    {
+        using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            <p>@Model.LoginMessage</p>
+            <div class="row">
+                <div class="col-lg-10">
+                    <input class="form-control" type="text" name="naam" placeholder="Naam">
+
+                    <input class="form-control" type="password" name="pass" placeholder="Password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <input type="submit" value="Login" class="btn btn-success" />
+                    <input type="button" value="Register" class="btn btn-success" name="btnReg" id="btnReg" onclick="location.href='@Url.Action("Register", "Account")'" />
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <p>Logged in as @Model.Name , Press Play now to go to character select.</p>
+
+        <input type="submit" value="Play now!" class="btn btn-success" name="btnPlay" id="btnPlay" onclick="location.href='@Url.Action("RedirectToRpg", "Account")'" />
+    }
 </div>

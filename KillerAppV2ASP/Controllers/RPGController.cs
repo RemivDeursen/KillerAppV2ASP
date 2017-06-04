@@ -11,20 +11,47 @@ namespace KillerAppV2ASP.Controllers
 {
     public class RPGController : Controller
     {
+        private UserLoginViewModel loginview = new UserLoginViewModel();
+        private CharacterViewModel charViewModel;
+        private EventsViewModel eventsViewModel = new EventsViewModel();
+        RPGSQLContext rpgct = new RPGSQLContext();
+        
         // GET: Character
-        public ActionResult Character()
+        public ActionResult Character(UserLoginViewModel loginView)
         {
-            RPGSQLContext rpgct= new RPGSQLContext();
-            RPGRepository rpgrepo = new RPGRepository(rpgct);
-            
-            var characters = new List<Character>();
-            characters = rpgrepo.GetCharactersFromUser(1);
 
-            var viewModel = new CharacterViewModel()
+            RPGRepository rpgrepo = new RPGRepository(rpgct);
+
+            charViewModel = new CharacterViewModel
             {
-                Characters = characters
+                Characters = rpgrepo.GetCharactersFromUser(loginView.UserID)
             };
-            return View(viewModel);
+
+
+            return View(charViewModel);
+        }
+
+        public ActionResult RPGgame()
+        {
+
+            return View(eventsViewModel);
+        }
+        
+        public ActionResult Play(int id)
+        {
+            RPGRepository rpgrepo = new RPGRepository(rpgct);
+
+            Character character = rpgrepo.GetById(id);
+
+            if (character == null)
+                throw new Exception("id does not exist.");
+
+            Player player = new Player(character.CharacterID, character.Name, character.HP, character.Mana);
+
+            eventsViewModel._EventSystem = new EventSystem(player);
+            eventsViewModel.SelectedCharacter = character;
+
+            return View(eventsViewModel);
         }
     }
 }

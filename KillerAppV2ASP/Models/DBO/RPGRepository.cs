@@ -24,6 +24,11 @@ namespace KillerAppV2ASP.Models.DBO
             return context.GetCharacterByName(name);
         }
 
+        public Character GetById(int id)
+        {
+            return context.GetById(id);
+        }
+
         public List<Item> GetInventory(string name)
         {
             return context.GetInventory(name);
@@ -44,9 +49,19 @@ namespace KillerAppV2ASP.Models.DBO
             return context.TryLogin(username, password);
         }
 
+        public void AddUserToDB(string name, string password)
+        {
+            context.AddUserToDB(name, password);
+        }
+
         public List<Character> GetCharactersFromUser(int userID)
         {
             return context.GetCharactersFromUser(userID);
+        }
+
+        public int GetUserId(string username, string password)
+        {
+            return context.GetUserId(username, password);
         }
     }
 }

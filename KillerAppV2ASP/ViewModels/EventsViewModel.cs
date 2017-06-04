@@ -6,9 +6,9 @@ using KillerAppV2ASP.Models;
 
 namespace KillerAppV2ASP.ViewModels
 {
-    public class CharacterViewModel
+    public class EventsViewModel
     {
-        public List<Character> Characters { get; set; }
         public Character SelectedCharacter { get; set; }
+        public EventSystem _EventSystem { get; set; }
     }
 }

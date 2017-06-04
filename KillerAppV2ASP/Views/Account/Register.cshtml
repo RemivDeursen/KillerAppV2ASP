@@ -1,13 +1,30 @@
-﻿@model 
+﻿
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
+<h2>Registreren</h2>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-11">
+            <p>Registreer je account.</p>
+        </div>
 
-<form action="trylog.php" method="post">
-    <label for="username">Username</label> <input type="text" id="username" name="username"><br /><br />
-    <label for="password">Password:</label> <input type="text" id="password" name="password"><br /><br />
-    <button type="submit">Login</button>
-</form>
+    </div>
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-lg-10">
+                <input class="form-control" type="text" name="naam" placeholder="Naam">
+                <input class="form-control" type="password" name="pass" placeholder="Password">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10">
+                <input type="submit" value="Register" class="btn btn-success"/>
+                <input type="button" value="Back to login" class="btn btn-success" name="btnReg" id="btnReg" onclick="location.href = '@Url.Action("Login", "Account")'"/>
+            </div>
+        </div>
+    }
+</div>
