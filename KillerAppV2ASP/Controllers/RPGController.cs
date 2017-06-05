@@ -26,7 +26,8 @@ namespace KillerAppV2ASP.Controllers
             {
                 Characters = rpgrepo.GetCharactersFromUser(loginView.UserID)
             };
-
+            eventsViewModel.UserLoginViewModel = loginView;
+            eventsViewModel.CharacterViewModel = charViewModel;
 
             return View(charViewModel);
         }
