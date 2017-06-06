@@ -150,6 +150,7 @@
     <Compile Include="Models\DBO\RPGSQLContext.cs" />
     <Compile Include="Models\Enemy.cs" />
     <Compile Include="Models\EventSystem.cs" />
+    <Compile Include="Models\GloballyAccessibleClass.cs" />
     <Compile Include="Models\IDestructable.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Player.cs" />

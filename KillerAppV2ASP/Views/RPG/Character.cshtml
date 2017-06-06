@@ -9,21 +9,19 @@
 <div class="jumbotron">
     <div class="row">
         
-        <div class="col-lg-5 list-group">
+        <div class="col-lg-12 list-group">
             @if (Model.Characters != null)
             {
                 foreach (var character in Model.Characters)
                 {
-                    <a class="list-group-item" id="">
-                        @character.Name
-                        
-
-                        <span class="pull-right">
-                            <a class="btn btn-success" href="@Url.Action("Play", "RPG", new { id = character.CharacterID })"> Play! </a>
-
-                            <!--<input type="button" value="Play!" class="btn btn-success" onclick="location.href = ''">-->
-                        </span>
-                    </a>
+                    <div class="col-lg-8">
+                        <div class="col-lg-5">
+                            <a class="list-group-item" id="">
+                                @character.Name
+                            </a>
+                        </div>
+                        <a class="btn btn-success" href="@Url.Action("Play", "RPG", new { id = character.CharacterID })"> Play! </a>
+                    </div>
                 }
             }
         </div>

@@ -8,33 +8,14 @@ namespace KillerAppV2ASP.Models
     public class EventSystem
     {
         public Player player { get; private set; }
+        public Character character { get; set; }
         public List<string> ScenarioList = new List<string>();
-        
+        public int playerProgression { get; set; }
+        public int UserId { get; set; }
 
-        public EventSystem(Player player)
+
+        public EventSystem()
         {
-            this.player = player;
-        }
-
-        public List<string> GetScenarioFromDB()
-        {
-
-            return null;
-        }
-
-        public void ExecutePlayerCommand(string command)
-        {
-            
-        }
-
-        public void LoadCharacter(string username, string pass)
-        {
-            
-        }
-
-        public void CreateNewCharacter(string name, string classname, string racename)
-        {
-            
         }
     }
 }

@@ -58,7 +58,24 @@ namespace KillerAppV2ASP.Models.DBO
 
         public List<string> GetStory()
         {
-            throw new NotImplementedException();
+            List<string> returnlist = new List<string>();
+
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+            DataTable dt = new DataTable();
+            cmd.CommandText =
+                "Select storytext from story";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conString;
+
+            conString.Open();
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                returnlist.Add(Convert.ToString(reader["storytext"]));
+            }
+            conString.Close();
+            return returnlist;
         }
 
         public bool TryLogin(string username, string password)

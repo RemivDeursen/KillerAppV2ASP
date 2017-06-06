@@ -38,6 +38,7 @@ namespace KillerAppV2ASP.Controllers
 
         public ActionResult RedirectToRpg()
         {
+            GloballyAccessibleClass.Instance.testint = 5;
             return RedirectToAction("Character", "RPG", userview);
         }
 
