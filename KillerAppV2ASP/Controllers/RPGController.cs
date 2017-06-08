@@ -49,8 +49,8 @@ namespace KillerAppV2ASP.Controllers
             eventsViewModel.EventsSystem.character = player;
             Session["CharId"] = player.CharacterID;
             Session["playerProgression"] = 1;
-            Session["Button2Name"] = "Look through the window";
-            Session["Button1Name"] = "Rush outside";
+            Session["Button1Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button1Text;
+            Session["Button2Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button2Text;
 
             GloballyAccessibleClass.Instance.EventsSystem = new EventSystem();
             return View(eventsViewModel);
@@ -64,38 +64,49 @@ namespace KillerAppV2ASP.Controllers
             {
                 if (prog == 1)
                 {
-                    prog = 2;
+                    prog = 3;
                 }
-                else
+                else if (prog == 2)
                 {
-                    Session["Button1Name"] = "Next";
-                    Session["Button2Name"] = "Next";
+                    //add combat redirect
+                    prog = 4;
+                }
+                else if (prog == 3)
+                {
+                    prog = 4;
+                }
+                else if (prog == 4)
+                {
+                    prog = 5;
+                }
+                else if (prog == 5)
+                {
+                    //Add DBO querry voor weapon repair
+                    prog = 7;
+                }
+                else if (prog == 6)
+                {
+                    prog = 7;
+                }
+                else if (prog == 7)
+                {
+                    prog = 8;
                 }
             }
             else if (command == "Action2")
             {
                 if (prog == 1)
                 {
-                    prog = 4;
+                    prog = 2;
                 }
-                else
+                else if (prog == 4)
                 {
-                    Session["Button1Name"] = "Next";
-                    Session["Button2Name"] = "Next";
+                    prog = 6;
                 }
-            }
-
-            if (prog == 6)
-            {
-                Session["Button1Name"] = "Attack";
-                Session["Button2Name"] = "Skill";
-                Session["Button3Name"] = "Skill";
-            }
-
-            if (prog == 9)
-            {
-                Session["Button1Name"] = "Eat Apple";
-                Session["Button2Name"] = "Drop Apple";
+                else if (prog == 7)
+                {
+                    prog = 9;
+                }
             }
             Session["playerProgression"] = prog;
 
@@ -116,12 +127,9 @@ namespace KillerAppV2ASP.Controllers
             eventsViewModel.EventsSystem.character = cha;
             eventsViewModel.EventsSystem.ScenarioList = repo.GetStory();
             eventsViewModel.EventsSystem.playerProgression = Convert.ToInt32(Session["playerProgression"]);
-            string phrase = Convert.ToString(Session["ActionsToSkip"]);
-            string[] words = phrase.Split(',');
-            foreach (string var in words)
-            {
-                //eventsViewModel.EventsSystem.ScenarioList.RemoveAt(Convert.ToInt32(var) - 1);
-            }
+            Session["Button1Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button1Text;
+            Session["Button2Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button2Text;
+
             return eventsViewModel;
         }
     }

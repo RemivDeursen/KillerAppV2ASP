@@ -12,7 +12,7 @@
     <div class="col-lg-5">
         @if (Model.EventsSystem.ScenarioList.Count >= (Convert.ToInt32(Session["PlayerProgression"])))
         {
-            <p>@Model.EventsSystem.ScenarioList[Convert.ToInt32(Session["PlayerProgression"]) - 1]</p>
+            <p>@Model.EventsSystem.ScenarioList[Convert.ToInt32(Session["PlayerProgression"]) - 1].Text</p>
         }
     </div>
     <div class="col-lg-5">
@@ -20,7 +20,14 @@
     </div>
     <div class="col-lg-12">
         <p> Kies hier je commando </p>
-        <a class="btn btn-success" id="btncmd1" href="@Url.Action("RedirectToCommand", "RPG", new {command = "Action1"})"> @Session["Button1Name"] </a>
-        <a class="btn btn-success" id="btncmd2" href="@Url.Action("RedirectToCommand", "RPG", new {command = "Action2"})"> @Session["Button2Name"] </a>
+        @if ((string)Session["Button1Name"] != "n")
+        {
+            <a class="btn btn-success" id="btncmd1" href="@Url.Action("RedirectToCommand", "RPG", new {command = "Action1"})"> @Session["Button1Name"] </a>
+        }
+        @if ((string)Session["Button2Name"] != "n")
+        {
+            <a class="btn btn-success" id="btncmd2" href="@Url.Action("RedirectToCommand", "RPG", new {command = "Action2"})"> @Session["Button2Name"] </a>
+        }
     </div>
+    <p>@Convert.ToInt32(Session["PlayerProgression"]) - 1]</p>
 </div>

@@ -14,11 +14,13 @@ namespace KillerAppV2ASP.Models.DBO
         Character GetCharacterByName(string name);
         Character GetById(int id);
         DataTable GetAttributes(string name);
-        List<string> GetStory();
+        List<StoryItems> GetStory();
         DataTable GetItems();
         List<Item> GetInventory(string name);
         List<Character> GetCharactersFromUser(int userId);
         int GetUserId(string username, string password);
+        int GetProgressById(int id);
+        void SetProgressById(int id);
 
     }
 }

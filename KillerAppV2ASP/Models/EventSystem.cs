@@ -9,7 +9,7 @@ namespace KillerAppV2ASP.Models
     {
         public Player player { get; private set; }
         public Character character { get; set; }
-        public List<string> ScenarioList = new List<string>();
+        public List<StoryItems> ScenarioList = new List<StoryItems>();
         public int playerProgression { get; set; }
         public int UserId { get; set; }
 

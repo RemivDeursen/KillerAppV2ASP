@@ -39,7 +39,7 @@ namespace KillerAppV2ASP.Models.DBO
             return context.GetItems();
         }
 
-        public List<string> GetStory()
+        public List<StoryItems> GetStory()
         {
             return context.GetStory();
         }
@@ -62,6 +62,16 @@ namespace KillerAppV2ASP.Models.DBO
         public int GetUserId(string username, string password)
         {
             return context.GetUserId(username, password);
+        }
+
+        public int GetProgressById(int id)
+        {
+            return context.GetProgressById(id);
+        }
+
+        public void SetProgressById(int id)
+        {
+            context.SetProgressById(id);
         }
     }
 }

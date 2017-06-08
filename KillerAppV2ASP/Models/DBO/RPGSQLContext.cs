@@ -56,15 +56,15 @@ namespace KillerAppV2ASP.Models.DBO
             throw new NotImplementedException();
         }
 
-        public List<string> GetStory()
+        public List<StoryItems> GetStory()
         {
-            List<string> returnlist = new List<string>();
+            List<StoryItems> returnlist = new List<StoryItems>();
 
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
             DataTable dt = new DataTable();
             cmd.CommandText =
-                "Select storytext from story";
+                "Select storytext, storybutton1, storybutton2 from story";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
@@ -72,7 +72,7 @@ namespace KillerAppV2ASP.Models.DBO
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                returnlist.Add(Convert.ToString(reader["storytext"]));
+                returnlist.Add(new StoryItems(Convert.ToString(reader["storytext"]), Convert.ToString(reader["storybutton1"]), Convert.ToString(reader["storybutton2"])));
             }
             conString.Close();
             return returnlist;
@@ -150,6 +150,32 @@ namespace KillerAppV2ASP.Models.DBO
             }
             conString.Close();
             return character;
+
+        }
+        public int GetProgressById(int id)
+        {
+            int prog = 0;
+            Character character = null;
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText =
+                "SELECT select progress from character where CharacterID = @id";
+
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conString;
+
+            conString.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                prog = Convert.ToInt32(reader.Read());
+            }
+            conString.Close();
+            return prog;
+        }
+
+        public void SetProgressById(int id)
+        {
 
         }
     }
