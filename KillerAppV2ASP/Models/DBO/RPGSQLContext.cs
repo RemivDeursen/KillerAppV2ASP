@@ -32,7 +32,7 @@ namespace KillerAppV2ASP.Models.DBO
             SqlDataReader reader;
             DataTable dt = new DataTable();
             cmd.CommandText =
-                "SELECT ch.CharacterID, ch.Name, at.Health, at.Mana \r\nFROM Character ch\r\njoin Class cl on ch.ClassID = cl.ClassID\r\njoin BaseAttributes ba on ba.ClassID = cl.ClassID\r\njoin Attributes at on at.AttributeID = ba.AttributeID\r\njoin User_Characters uc on uc.characterID = ch.CharacterID\r\nwhere uc.UserID = " +userId;
+                "SELECT ch.CharacterID, ch.weaponid, ch.armorid, ch.Name, at.Health, at.Mana FROM Character ch join Class cl on ch.ClassID = cl.ClassID join BaseAttributes ba on ba.ClassID = cl.ClassID join Attributes at on at.AttributeID = ba.AttributeID join User_Characters uc on uc.characterID = ch.CharacterID where uc.UserID = " + userId;
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
@@ -40,15 +40,62 @@ namespace KillerAppV2ASP.Models.DBO
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                returnlist.Add(new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"])));
+                returnlist.Add(new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"])));
             }
             conString.Close();
             return returnlist;
         }
 
-        public List<Item> GetInventory(string name)
+        public List<Item> GetInventory(int id)
         {
-            throw new NotImplementedException();
+            string query = "select itm.itemid, itm.name, itm.durability, cat.name from Character ch join Inventory inv on inv.CharacterID = ch.CharacterID join Item itm on itm.ItemID = inv.ItemID join Category cat on cat.CategoryID = itm.ItemID where ch.CharacterID = " + id;
+            List<Item> items = new List<Item>();
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conString;
+            
+            conString.Open();
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                items.Add(new Item(Convert.ToInt32(reader["itemid"]), Convert.ToString(reader["name"]), Convert.ToInt32(reader["durability"]), Convert.ToString(reader["name"])));
+            }
+            conString.Close();
+            return items;
+        }
+
+        public Item GetItemById(int id)
+        {
+            string query = "select itm.itemid, itm.name, itm.durability, cat.Name as catname from item itm join Category cat on cat.CategoryID = itm.CategoryID where itm.ItemID = @id";
+            Item itm = null;
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conString;
+
+            conString.Open();
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                itm = new Item(Convert.ToInt32(reader["itemid"]), Convert.ToString(reader["name"]), Convert.ToInt32(reader["durability"]), Convert.ToString(reader["catname"]));
+            }
+            conString.Close();
+            return itm;
+        }
+
+        public void ExecuteDamageToItem(int ItemID)
+        {
+            SqlCommand cmd = new SqlCommand("DamageDurability", conString);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            conString.Open();
+            cmd.ExecuteNonQuery();
+            conString.Close();
         }
 
         public DataTable GetItems()
@@ -137,7 +184,7 @@ namespace KillerAppV2ASP.Models.DBO
             Character character = null;
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText =
-                "SELECT ch.CharacterID, ch.Name, at.Health, at.Mana\r\nFROM Character ch \r\njoin Class cl on ch.ClassID = cl.ClassID\r\njoin BaseAttributes ba on ba.ClassID = cl.ClassID\r\njoin Attributes at on at.AttributeID = ba.AttributeID\r\njoin User_Characters uc on uc.characterID = ch.CharacterID\r\nwhere ch.CharacterID = " + id;
+                "SELECT ch.CharacterID, ch.Name, at.Health, at.Mana, ch.weaponid, ch.armorid FROM Character ch  join Class cl on ch.ClassID = cl.ClassID join BaseAttributes ba on ba.ClassID = cl.ClassID join Attributes at on at.AttributeID = ba.AttributeID join User_Characters uc on uc.characterID = ch.CharacterID where ch.CharacterID = " + id;
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
@@ -145,8 +192,7 @@ namespace KillerAppV2ASP.Models.DBO
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                character = new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]),
-                    Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]));
+                character = new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"]));
             }
             conString.Close();
             return character;
@@ -177,6 +223,29 @@ namespace KillerAppV2ASP.Models.DBO
         public void SetProgressById(int id)
         {
 
+        }
+
+        public void ExecuteRepairDurability(int ItemID)
+        {
+            SqlCommand cmd = new SqlCommand("RepairDurability", conString);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            conString.Open();
+            cmd.ExecuteNonQuery();
+            conString.Close();
+        }
+
+        public void AddCharacter(int userid, int classid, int raceid, string name)
+        {
+            SqlCommand cmd = new SqlCommand("CreateCharacter", conString);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@UserID", userid));
+            cmd.Parameters.Add(new SqlParameter("@ClassID", classid));
+            cmd.Parameters.Add(new SqlParameter("@RaceID", raceid));
+            cmd.Parameters.Add(new SqlParameter("@Name", name));
+            conString.Open();
+                cmd.ExecuteNonQuery();
+                conString.Close();
         }
     }
 }

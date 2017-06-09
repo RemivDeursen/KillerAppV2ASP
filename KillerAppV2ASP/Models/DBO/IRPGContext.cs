@@ -12,15 +12,19 @@ namespace KillerAppV2ASP.Models.DBO
         bool TryLogin(string username, string password);
         void AddUserToDB(string name, string password);
         Character GetCharacterByName(string name);
+        void AddCharacter(int userid, int classid, int raceid, string name);
         Character GetById(int id);
         DataTable GetAttributes(string name);
         List<StoryItems> GetStory();
         DataTable GetItems();
-        List<Item> GetInventory(string name);
+        List<Item> GetInventory(int id);
         List<Character> GetCharactersFromUser(int userId);
         int GetUserId(string username, string password);
         int GetProgressById(int id);
         void SetProgressById(int id);
+        Item GetItemById(int id);
+        void ExecuteDamageToItem(int ItemID);
+        void ExecuteRepairDurability(int ItemID);
 
     }
 }

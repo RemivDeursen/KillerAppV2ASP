@@ -29,9 +29,9 @@ namespace KillerAppV2ASP.Models.DBO
             return context.GetById(id);
         }
 
-        public List<Item> GetInventory(string name)
+        public List<Item> GetInventory(int id)
         {
-            return context.GetInventory(name);
+            return context.GetInventory(id);
         }
 
         public DataTable GetItems()
@@ -72,6 +72,25 @@ namespace KillerAppV2ASP.Models.DBO
         public void SetProgressById(int id)
         {
             context.SetProgressById(id);
+        }
+
+        public Item GetItemById(int id)
+        {
+            return context.GetItemById(id);
+        }
+
+        public void ExecuteDamageToItem(int ItemID)
+        {
+            context.ExecuteDamageToItem(ItemID);
+        }
+
+        public void ExecuteRepairDurability(int ItemID)
+        {
+            context.ExecuteRepairDurability(ItemID);
+        }
+        public void AddCharacter(int userid, int classid, int raceid, string name)
+        {
+            context.AddCharacter(userid ,classid, raceid, name);
         }
     }
 }
