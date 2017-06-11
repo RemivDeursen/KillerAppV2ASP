@@ -31,7 +31,7 @@ namespace KillerAppV2ASP.Models.DBO
 
         public List<Item> GetInventory(int id)
         {
-            return context.GetInventory(id);
+            return context.GetInventoryById(id);
         }
 
         public DataTable GetItems()

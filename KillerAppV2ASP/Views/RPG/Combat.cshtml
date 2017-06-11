@@ -1,0 +1,57 @@
+﻿@model KillerAppV2ASP.ViewModels.EnemyViewModel
+@{
+    ViewBag.Title = "Combat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="jumbotron">
+    <h2>Combat</h2>
+</div>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-4">
+            <p>@Model.EnemyList[0].Name</p>
+            <p id="enemy1hp">@Model.EnemyList[0].Health</p>
+
+            <input type="button" value="attack" id="attack1" name="attack1" class="btn btn-success"/>
+        </div>
+        <div class="col-lg-4">
+            <p>@Model.EnemyList[1].Name</p>
+            <p>@Model.EnemyList[1].Health</p>
+
+            <input type="button" value="attack" id="attack2" name="attack2" class="btn btn-success" />
+        </div>
+        <div class="col-lg-4">
+            <p>@Model.EnemyList[2].Name</p>
+            <p>@Model.EnemyList[2].Health</p>
+
+            <input type="button" value="attack" id="attack3" name="attack3" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script>
+
+    $("#attack1").click(function (e) {
+        e.preventDefault();
+            $.ajax({
+                url: "/RPG/Damageunit",
+                type: "POST",
+                data: {dmg: 50},
+                success: function () {
+                    alert("Succes");
+            },
+                error: function () {
+                    alert("Fail");
+            }
+        });
+
+    });
+    $("#attack2").click(function () {
+        alert("test");
+            });
+
+</script>

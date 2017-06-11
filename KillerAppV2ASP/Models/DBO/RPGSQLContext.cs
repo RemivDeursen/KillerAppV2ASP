@@ -23,7 +23,11 @@ namespace KillerAppV2ASP.Models.DBO
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Gets the a character from the users table in the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<Character> GetCharactersFromUser(int userId)
         {
             List<Character> returnlist = new List<Character>();
@@ -45,8 +49,12 @@ namespace KillerAppV2ASP.Models.DBO
             conString.Close();
             return returnlist;
         }
-
-        public List<Item> GetInventory(int id)
+        /// <summary>
+        /// Gets the players inventory from the given character id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Item> GetInventoryById(int id)
         {
             string query = "select itm.itemid, itm.name, itm.durability, cat.name from Character ch join Inventory inv on inv.CharacterID = ch.CharacterID join Item itm on itm.ItemID = inv.ItemID join Category cat on cat.CategoryID = itm.ItemID where ch.CharacterID = " + id;
             List<Item> items = new List<Item>();
@@ -66,7 +74,11 @@ namespace KillerAppV2ASP.Models.DBO
             conString.Close();
             return items;
         }
-
+        /// <summary>
+        /// Gets a specific item from the database with the given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Item GetItemById(int id)
         {
             string query = "select itm.itemid, itm.name, itm.durability, cat.Name as catname from item itm join Category cat on cat.CategoryID = itm.CategoryID where itm.ItemID = @id";
@@ -87,7 +99,10 @@ namespace KillerAppV2ASP.Models.DBO
             conString.Close();
             return itm;
         }
-
+        /// <summary>
+        /// Executes a procedure that does damage to a item 
+        /// </summary>
+        /// <param name="ItemID"></param>
         public void ExecuteDamageToItem(int ItemID)
         {
             SqlCommand cmd = new SqlCommand("DamageDurability", conString);
@@ -102,7 +117,10 @@ namespace KillerAppV2ASP.Models.DBO
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// This method gets the story text and action names from the database
+        /// </summary>
+        /// <returns></returns>
         public List<StoryItems> GetStory()
         {
             List<StoryItems> returnlist = new List<StoryItems>();
@@ -124,7 +142,12 @@ namespace KillerAppV2ASP.Models.DBO
             conString.Close();
             return returnlist;
         }
-
+        /// <summary>
+        /// This method uses the username and password given to check if they match an account in the database
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool TryLogin(string username, string password)
         {
             bool succes = false;
@@ -149,7 +172,12 @@ namespace KillerAppV2ASP.Models.DBO
 
             return succes;
         }
-
+        /// <summary>
+        /// This method returns the userId of the account given
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public int GetUserId(string username, string password)
         {
             using (SqlConnection conn = new SqlConnection("Server=192.168.20.5;Database=KILLERAPREMI;User Id = sa; Password=Admin;"))
@@ -166,7 +194,11 @@ namespace KillerAppV2ASP.Models.DBO
             }
             
         }
-
+        /// <summary>
+        /// This method adds a useraccount made by the user to the database
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="password"></param>
         public void AddUserToDB(string naam, string password)
         {
             SqlCommand cmd = new SqlCommand();
@@ -178,7 +210,11 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.ExecuteReader();
             conString.Close();
         }
-
+        /// <summary>
+        /// This method gets the character info ascociated with the given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Character GetById(int id)
         {
             Character character = null;
@@ -198,6 +234,12 @@ namespace KillerAppV2ASP.Models.DBO
             return character;
 
         }
+
+        /// <summary>
+        /// This method gets the progression int of where the player you input is at.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int GetProgressById(int id)
         {
             int prog = 0;
@@ -225,6 +267,10 @@ namespace KillerAppV2ASP.Models.DBO
 
         }
 
+        /// <summary>
+        /// This method repairs the item you send in the parameter
+        /// </summary>
+        /// <param name="ItemID"></param>
         public void ExecuteRepairDurability(int ItemID)
         {
             SqlCommand cmd = new SqlCommand("RepairDurability", conString);
@@ -234,7 +280,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.ExecuteNonQuery();
             conString.Close();
         }
-
+        /// <summary>
+        /// This method adds a character linked to a user into the database
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="classid"></param>
+        /// <param name="raceid"></param>
+        /// <param name="name"></param>
         public void AddCharacter(int userid, int classid, int raceid, string name)
         {
             SqlCommand cmd = new SqlCommand("CreateCharacter", conString);

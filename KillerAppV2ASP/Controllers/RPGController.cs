@@ -11,15 +11,18 @@ namespace KillerAppV2ASP.Controllers
 {
     public class RPGController : Controller
     {
+        //Initialize viemodels
         private UserLoginViewModel _loginview = new UserLoginViewModel();
         private CharacterViewModel _charViewModel;
         private EventsViewModel eventsViewModel = new EventsViewModel();
-        private GloballyAccessibleClass GaClass;
-        RPGSQLContext rpgct = new RPGSQLContext();
+        //Initialize the database context
+        private RPGSQLContext rpgct = new RPGSQLContext();
+        private EnemyViewModel _enemyViewModel = new EnemyViewModel();
         
         // GET: Character
         public ActionResult Character(UserLoginViewModel loginView)
         {
+            //Add characters from the logged in users to a view
             if (loginView != null)
             {
                 Session["UserID"] = loginView.UserID;
@@ -163,5 +166,29 @@ namespace KillerAppV2ASP.Controllers
             _loginview.UserID = (int) Session["UserID"];
             return RedirectToAction("Character", _loginview);
         }
+
+        public ActionResult Combat()
+        {
+            if (_enemyViewModel.EnemyList == null)
+            {
+                _enemyViewModel.EnemyList = new List<Enemy>();
+                for (int i = 0; i < 3; i++)
+                {
+                    _enemyViewModel.EnemyList.Add(new Enemy(10, "Goblin", 200, 50, 9, 10));
+                }
+            }
+            Session["evm"] = _enemyViewModel;
+            return View("Combat", _enemyViewModel);
+        }
+        [HttpPost]
+        public ActionResult Damageunit(int dmg)
+        {
+            _enemyViewModel = (EnemyViewModel)Session["evm"];
+            _enemyViewModel.EnemyList[0].Health = _enemyViewModel.EnemyList[0].Health - 50;
+
+            return View("Combat", _enemyViewModel);
+        }
+        
+
     }
 }

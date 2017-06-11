@@ -17,7 +17,7 @@ namespace KillerAppV2ASP.Models.DBO
         DataTable GetAttributes(string name);
         List<StoryItems> GetStory();
         DataTable GetItems();
-        List<Item> GetInventory(int id);
+        List<Item> GetInventoryById(int id);
         List<Character> GetCharactersFromUser(int userId);
         int GetUserId(string username, string password);
         int GetProgressById(int id);
