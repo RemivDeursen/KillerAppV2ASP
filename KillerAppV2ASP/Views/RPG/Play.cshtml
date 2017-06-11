@@ -16,7 +16,9 @@
         }
     </div>
     <div class="col-lg-5">
-        <p></p>
+        <p>@Convert.ToInt32(Session["PlayerProgression"])</p>
+        <p>Weapon: @Model.EventsSystem.character.Weapon.Name  /  Durability: @Model.EventsSystem.character.Weapon.Durability</p>
+        <p>Armor: @Model.EventsSystem.character.Armor.Name  /  Durability: @Model.EventsSystem.character.Armor.Durability</p>
     </div>
     <div class="col-lg-12">
         <p> Kies hier je commando </p>
@@ -29,5 +31,4 @@
             <a class="btn btn-success" id="btncmd2" href="@Url.Action("RedirectToCommand", "RPG", new {command = "Action2"})"> @Session["Button2Name"] </a>
         }
     </div>
-    <p>@Convert.ToInt32(Session["PlayerProgression"]) - 1]</p>
 </div>

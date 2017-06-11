@@ -20,9 +20,11 @@ namespace KillerAppV2ASP.Controllers
         // GET: Character
         public ActionResult Character(UserLoginViewModel loginView)
         {
-
+            if (loginView != null)
+            {
+                Session["UserID"] = loginView.UserID;
+            }
             RPGRepository rpgrepo = new RPGRepository(rpgct);
-
             _charViewModel = new CharacterViewModel
             {
                 Characters = rpgrepo.GetCharactersFromUser(loginView.UserID)
@@ -37,17 +39,18 @@ namespace KillerAppV2ASP.Controllers
             RPGRepository rpgrepo = new RPGRepository(rpgct);
 
             Character character = rpgrepo.GetById(id);
+            character.InventoryList = rpgrepo.GetInventory(id);
+            character.initWeapons();
 
             if (character == null)
                 throw new Exception("id does not exist.");
-
-            Player player = new Player(character.CharacterID, character.Name, character.HP, character.Mana);
+            
 
             eventsViewModel.EventsSystem = new EventSystem();
             eventsViewModel.EventsSystem.ScenarioList = rpgrepo.GetStory();
             eventsViewModel.EventsSystem.playerProgression = 1;
-            eventsViewModel.EventsSystem.character = player;
-            Session["CharId"] = player.CharacterID;
+            eventsViewModel.EventsSystem.character = character;
+            Session["CharId"] = character.CharacterID;
             Session["playerProgression"] = 1;
             Session["Button1Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button1Text;
             Session["Button2Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button2Text;
@@ -83,6 +86,14 @@ namespace KillerAppV2ASP.Controllers
                 {
                     //Add DBO querry voor weapon repair
                     prog = 7;
+
+                    RPGSQLContext rpgsqlContext = new RPGSQLContext();
+                    RPGRepository repo = new RPGRepository(rpgsqlContext);
+                    Character cha = repo.GetById(Convert.ToInt32(Session["CharId"]));
+                    cha.InventoryList = repo.GetInventory(Convert.ToInt32(Session["CharId"]));
+                    cha.initWeapons();
+
+                    cha.Weapon.RepairItem();
                 }
                 else if (prog == 6)
                 {
@@ -123,6 +134,8 @@ namespace KillerAppV2ASP.Controllers
             RPGSQLContext rpgsqlContext = new RPGSQLContext();
             RPGRepository repo = new RPGRepository(rpgsqlContext);
             Character cha = repo.GetById(Convert.ToInt32(Session["CharId"]));
+            cha.InventoryList = repo.GetInventory(Convert.ToInt32(Session["CharId"]));
+            cha.initWeapons();
             eventsViewModel.EventsSystem = new EventSystem();
             eventsViewModel.EventsSystem.character = cha;
             eventsViewModel.EventsSystem.ScenarioList = repo.GetStory();
@@ -131,6 +144,24 @@ namespace KillerAppV2ASP.Controllers
             Session["Button2Name"] = eventsViewModel.EventsSystem.ScenarioList[(int)Session["playerProgression"] -1].Button2Text;
 
             return eventsViewModel;
+        }
+
+        public ActionResult Create()
+        {
+            RPGSQLContext rpgsqlContext = new RPGSQLContext();
+            RPGRepository repo = new RPGRepository(rpgsqlContext);
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCharacter(string name, int classid, int raceid)
+        {
+            RPGSQLContext rpgsqlContext = new RPGSQLContext();
+            RPGRepository repo = new RPGRepository(rpgsqlContext);
+            repo.AddCharacter((int)Session["UserID"], classid, raceid, name);
+            _loginview.UserID = (int) Session["UserID"];
+            return RedirectToAction("Character", _loginview);
         }
     }
 }

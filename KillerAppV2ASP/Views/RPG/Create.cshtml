@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Registreren</h2>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-lg-11">
+            <p>Registreer je account.</p>
+        </div>
+
+    </div>
+    @using (Html.BeginForm("AddCharacter", "RPG", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-lg-10">
+                <input class="form-control" type="text" name="name" placeholder="Naam">
+                <select id="classid" name="classid" class="dropdown form-control">
+                    <option value="0">Knight</option>
+                    <option value="1">Warrior</option>
+                    <option value="2">Warlock</option>
+                    <option value="3">Rogue</option>
+                    <option value="4">Ranger</option>
+                    <option value="5">Berserker</option>
+                    <option value="6">Paladin</option>
+                </select>
+                <select id="raceid" name="raceid" class="dropdown form-control">
+                    <option value="1">Orc</option>
+                    <option value="2">Human</option>
+                    <option value="3">Troll</option>
+                    <option value="4">Gnome</option>
+                    <option value="5">Undead</option>
+                    <option value="6">Dwarf</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="button" value="Back" class="btn btn-success" name="btnReg" id="btnReg" onclick="location.href = '@Url.Action("Character", "RPG" )'" />
+            </div>
+        </div>
+    }
+</div>
+

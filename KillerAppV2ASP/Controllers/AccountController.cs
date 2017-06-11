@@ -52,6 +52,7 @@ namespace KillerAppV2ASP.Controllers
                 {
                     userview.LoginMessage = "U bent ingelogd.";
                     userview.UserID = rpgrepo.GetUserId(naam, pass);
+                    Session["UserID"] = userview.UserID;
                     userview.Name = naam;
                     userview.Password = pass;
                     userview.Loggedin = true;
