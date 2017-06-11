@@ -18,13 +18,13 @@
         </div>
         <div class="col-lg-4">
             <p>@Model.EnemyList[1].Name</p>
-            <p>@Model.EnemyList[1].Health</p>
+            <p id="enemy2hp">@Model.EnemyList[1].Health</p>
 
             <input type="button" value="attack" id="attack2" name="attack2" class="btn btn-success" />
         </div>
         <div class="col-lg-4">
             <p>@Model.EnemyList[2].Name</p>
-            <p>@Model.EnemyList[2].Health</p>
+            <p id="enemy3hp">@Model.EnemyList[2].Health</p>
 
             <input type="button" value="attack" id="attack3" name="attack3" class="btn btn-success" />
         </div>
@@ -40,9 +40,14 @@
             $.ajax({
                 url: "/RPG/Damageunit",
                 type: "POST",
-                data: {dmg: 50},
+                data: {dmg: 50, id: 1},
                 success: function () {
-                    alert("Succes");
+                    if ($("#enemy1hp").text() > 0) {
+                        $("#enemy1hp").text($("#enemy1hp").text() - 50);
+                    }
+                    if ($("#enemy1hp").text() == 0 && $("#enemy2hp").text() == 0 && $("#enemy3hp").text() == 0) {
+                        window.location.href = '@Url.Action("ReturnFromCombat", "RPG")';
+                    }
             },
                 error: function () {
                     alert("Fail");
@@ -50,8 +55,45 @@
         });
 
     });
-    $("#attack2").click(function () {
-        alert("test");
-            });
+    $("#attack2").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/RPG/Damageunit",
+            type: "POST",
+            data: { dmg: 50, id:2 },
+            success: function () {
+                if ($("#enemy2hp").text() > 0) {
+                    $("#enemy2hp").text($("#enemy2hp").text() - 50);
+                }
+                if ($("#enemy1hp").text() == 0 && $("#enemy2hp").text() == 0 && $("#enemy3hp").text() == 0) {
+                        window.location.href = '@Url.Action("ReturnFromCombat", "RPG")';
+                }
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+
+    });
+    $("#attack3").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/RPG/Damageunit",
+            type: "POST",
+            data: { dmg: 50, id:3 },
+            success: function () {
+                if ($("#enemy3hp").text() > 0) {
+                    $("#enemy3hp").text($("#enemy3hp").text() - 50);
+                }
+                if ($("#enemy1hp").text() == 0 && $("#enemy2hp").text() == 0 && $("#enemy3hp").text() == 0) {
+                        window.location.href = '@Url.Action("ReturnFromCombat", "RPG")';
+                }
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+
+    });
 
 </script>

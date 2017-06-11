@@ -299,5 +299,30 @@ namespace KillerAppV2ASP.Models.DBO
                 cmd.ExecuteNonQuery();
                 conString.Close();
         }
+        /// <summary>
+        /// Get an item drop from the database
+        /// </summary>
+        /// <param name="CharID"></param>
+        /// <returns></returns>
+        public int GetItemDrop(int CharId)
+        {
+            SqlCommand cmd = new SqlCommand("GetItemDropProc", conString);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            var sendparameter = cmd.Parameters.Add(new SqlParameter("@CharacterID", CharId));
+            sendparameter.Direction = ParameterDirection.Input;
+
+            var returnParameter = cmd.Parameters.Add("@ItemName", SqlDbType.VarChar, 255);
+            returnParameter.Direction = ParameterDirection.ReturnValue;
+
+            conString.Open();
+
+            cmd.ExecuteNonQuery();
+            var result = returnParameter.Value;
+
+            conString.Close();
+
+            return Convert.ToInt32(result);
+        }
     }
 }

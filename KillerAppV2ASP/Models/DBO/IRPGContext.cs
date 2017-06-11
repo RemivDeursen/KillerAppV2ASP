@@ -25,6 +25,7 @@ namespace KillerAppV2ASP.Models.DBO
         Item GetItemById(int id);
         void ExecuteDamageToItem(int ItemID);
         void ExecuteRepairDurability(int ItemID);
+        int GetItemDrop(int CharId);
 
     }
 }

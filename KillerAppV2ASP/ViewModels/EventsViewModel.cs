@@ -9,5 +9,6 @@ namespace KillerAppV2ASP.ViewModels
     public class EventsViewModel
     {
         public EventSystem EventsSystem { get; set; }
+        public Item droppedItem { get; set; }
     }
 }

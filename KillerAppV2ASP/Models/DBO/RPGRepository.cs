@@ -92,5 +92,10 @@ namespace KillerAppV2ASP.Models.DBO
         {
             context.AddCharacter(userid ,classid, raceid, name);
         }
+
+        public int GetItemDrop(int CharId)
+        {
+            return context.GetItemDrop(CharId);
+        }
     }
 }

@@ -19,6 +19,14 @@
         <p>@Convert.ToInt32(Session["PlayerProgression"])</p>
         <p>Weapon: @Model.EventsSystem.character.Weapon.Name  /  Durability: @Model.EventsSystem.character.Weapon.Durability</p>
         <p>Armor: @Model.EventsSystem.character.Armor.Name  /  Durability: @Model.EventsSystem.character.Armor.Durability</p>
+        <p>Loot gained:</p> @if (Model.droppedItem != null)
+                        {
+                            <p>@Model.droppedItem.Name</p>
+                        }
+                        else
+                        {
+                            <p>No items dropped</p>
+                        }
     </div>
     <div class="col-lg-12">
         <p> Kies hier je commando </p>
