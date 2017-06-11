@@ -12,7 +12,7 @@ namespace KillerAppV2ASP.Models.DBO
     public class RPGSQLContext : IRPGContext
     {
         private static SqlConnection conString = new SqlConnection(
-            "Server=mssql.fhict.local;Database=dbi348991;User Id = dbi348991; Password=banaan;");
+            "Server=192.168.20.5;Database=KILLERAPREMI;User Id = sa; Password=Admin;");
 
         public DataTable GetAttributes(string name)
         {
@@ -81,7 +81,7 @@ namespace KillerAppV2ASP.Models.DBO
         public bool TryLogin(string username, string password)
         {
             bool succes = false;
-            using (SqlConnection conn = new SqlConnection("Server=mssql.fhict.local;Database=dbi348991;User Id = dbi348991; Password=banaan;"))
+            using (SqlConnection conn = new SqlConnection("Server=192.168.20.5;Database=KILLERAPREMI;User Id = sa; Password=Admin;"))
             {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand("select count(*) from Users where UserName = @uname and Password = @upw", conn);
@@ -105,7 +105,7 @@ namespace KillerAppV2ASP.Models.DBO
 
         public int GetUserId(string username, string password)
         {
-            using (SqlConnection conn = new SqlConnection("Server=mssql.fhict.local;Database=dbi348991;User Id = dbi348991; Password=banaan;"))
+            using (SqlConnection conn = new SqlConnection("Server=192.168.20.5;Database=KILLERAPREMI;User Id = sa; Password=Admin;"))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("select userid from Users where UserName = @uname and Password = @upw", conn);
