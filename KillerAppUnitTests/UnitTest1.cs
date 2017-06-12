@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KillerAppV2ASP.Controllers;
 using KillerAppV2ASP.Models;
 using KillerAppV2ASP.Models.DBO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +10,7 @@ namespace KillerAppUnitTests
     [TestClass]
     public class UnitTest1
     {
+
         /// <summary>
         /// To test a new account add another number after the testlogin/testpassword
         /// </summary>
@@ -17,8 +19,8 @@ namespace KillerAppUnitTests
         {
             RPGSQLContext context = new RPGSQLContext();
             RPGRepository repo = new RPGRepository(context);
-            string testlogin = "Testlogin2";
-            string testPassword = "Testpassword2";
+            string testlogin = "Testlogin4";
+            string testPassword = "Testpassword4";
             //Add user with a test login/password
             repo.AddUserToDB(testlogin, testPassword);
 
@@ -72,7 +74,7 @@ namespace KillerAppUnitTests
         {
             RPGSQLContext context = new RPGSQLContext();
             RPGRepository repo = new RPGRepository(context);
-            string testname = "TestUserCharacter7";
+            string testname = "TestUserCharacter9";
             //Add a test character to userid 2, with class and race id 2 and the name TestUserCharacter
             repo.AddCharacter(2, 2, 2, testname);
 
@@ -89,6 +91,27 @@ namespace KillerAppUnitTests
 
             //Character info test
             Assert.AreEqual(testname, character.Name);
+        }
+
+        [TestMethod]
+        public void Select_Character()
+        {
+            RPGSQLContext context = new RPGSQLContext();
+            RPGRepository repo = new RPGRepository(context);
+            User user = new User();
+            user.Username = "Bob";
+            user.Password = "Pass";
+
+            //Get the userid from the logged user
+            int userid = repo.GetUserId(user.Username, user.Password);
+
+            //Get the character from the user
+            List<Character> characters = repo.GetCharactersFromUser(userid);
+
+            //Send selected character to login view
+            RPGController rpgController = new RPGController();
+            rpgController.Play(characters[1].CharacterID);
+            
         }
 
     }
