@@ -12,7 +12,6 @@ namespace KillerAppV2ASP.Controllers
 {
     public class AccountController : Controller
     {
-        static List<User> users = new List<User>();
         RPGSQLContext rpgsql = new RPGSQLContext();
         static UserLoginViewModel userview = new UserLoginViewModel()
         {
@@ -32,7 +31,6 @@ namespace KillerAppV2ASP.Controllers
         
         public ActionResult Login()
         {
-            //database login aanroepen hier?
             return View(userview);
         }
 
@@ -41,7 +39,12 @@ namespace KillerAppV2ASP.Controllers
             GloballyAccessibleClass.Instance.testint = 5;
             return RedirectToAction("Character", "RPG", userview);
         }
-
+        /// <summary>
+        /// This method runs the username and password through the repositorys login verification query.
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Login(string naam, string pass)
         {
@@ -70,7 +73,12 @@ namespace KillerAppV2ASP.Controllers
             return View(userview);
         }
 
-
+        /// <summary>
+        /// This method registers a new user to the database.
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Register(string naam, string pass)
         {
