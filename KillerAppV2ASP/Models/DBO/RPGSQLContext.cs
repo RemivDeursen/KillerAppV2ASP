@@ -21,7 +21,24 @@ namespace KillerAppV2ASP.Models.DBO
 
         public Character GetCharacterByName(string name)
         {
-            throw new NotImplementedException();
+            Character character = null;
+
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+            DataTable dt = new DataTable();
+            cmd.CommandText =
+                "SELECT ch.CharacterID, ch.weaponid, ch.armorid, ch.Name, at.Health, at.Mana FROM Character ch join Class cl on ch.ClassID = cl.ClassID join BaseAttributes ba on ba.ClassID = cl.ClassID join Attributes at on at.AttributeID = ba.AttributeID join User_Characters uc on uc.characterID = ch.CharacterID where ch.name = " + name;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conString;
+
+            conString.Open();
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                character = new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"]));
+            }
+            conString.Close();
+            return character;
         }
         /// <summary>
         /// Gets the a character from the users table in the database
