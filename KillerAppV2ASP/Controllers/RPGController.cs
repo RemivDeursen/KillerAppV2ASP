@@ -81,6 +81,9 @@ namespace KillerAppV2ASP.Controllers
             int ids = (int) Session["CharId"];
             Session["evm"] = null;
             int itemid = rpgrepo.GetItemDrop((int) Session["CharId"]);
+            Character character = rpgrepo.GetById((int) Session["CharId"]);
+            int itemidweapon = character.Wepid;
+            rpgrepo.ExecuteDamageToItem(itemidweapon);
             Session["itemdrop"] = itemid;
 
             return RedirectToAction("Play", new {id = ids});
@@ -134,6 +137,10 @@ namespace KillerAppV2ASP.Controllers
                     Session["playerProgression"] = prog;
                     return RedirectToAction("Combat");
                 }
+                else if (prog == 9)
+                {
+                    prog = 11;
+                }
                 else if (prog == 10)
                 {
                     prog = 11;
@@ -141,7 +148,7 @@ namespace KillerAppV2ASP.Controllers
                 else if (prog == 11)
                 {
                     Session["playerProgression"] = 1;
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Logout", "Account");
                 }
             }
             else if (command == "Action2")
@@ -161,7 +168,7 @@ namespace KillerAppV2ASP.Controllers
                 else if (prog == 11)
                 {
                     Session["playerProgression"] = 1;
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Logout", "Account");
                 }
             }
             Session["playerProgression"] = prog;

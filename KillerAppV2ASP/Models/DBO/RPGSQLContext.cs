@@ -31,13 +31,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 character = new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"]));
             }
-            conString.Close();
+            CloseConnection();
             return character;
         }
         /// <summary>
@@ -57,13 +57,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 returnlist.Add(new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"])));
             }
-            conString.Close();
+            CloseConnection();
             return returnlist;
         }
         /// <summary>
@@ -82,13 +82,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
             
-            conString.Open();
+            OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 items.Add(new Item(Convert.ToInt32(reader["itemid"]), Convert.ToString(reader["name"]), Convert.ToInt32(reader["durability"]), Convert.ToString(reader["name"])));
             }
-            conString.Close();
+            CloseConnection();
             return items;
         }
         /// <summary>
@@ -107,13 +107,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 itm = new Item(Convert.ToInt32(reader["itemid"]), Convert.ToString(reader["name"]), Convert.ToInt32(reader["durability"]), Convert.ToString(reader["catname"]));
             }
-            conString.Close();
+            CloseConnection();
             return itm;
         }
         /// <summary>
@@ -125,9 +125,9 @@ namespace KillerAppV2ASP.Models.DBO
             SqlCommand cmd = new SqlCommand("DamageDurability", conString);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@ItemID", ItemID));
-            conString.Open();
+            OpenConnection();
             cmd.ExecuteNonQuery();
-            conString.Close();
+            CloseConnection();
         }
 
         public DataTable GetItems()
@@ -150,13 +150,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 returnlist.Add(new StoryItems(Convert.ToString(reader["storytext"]), Convert.ToString(reader["storybutton1"]), Convert.ToString(reader["storybutton2"])));
             }
-            conString.Close();
+            CloseConnection();
             return returnlist;
         }
         /// <summary>
@@ -223,9 +223,9 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             cmd.ExecuteReader();
-            conString.Close();
+            CloseConnection();
         }
         /// <summary>
         /// This method gets the character info ascociated with the given id
@@ -241,13 +241,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 character = new Character(Convert.ToInt32(reader["CharacterID"]), Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Health"]), Convert.ToInt32(reader["Mana"]), Convert.ToInt32(reader["weaponid"]), Convert.ToInt32(reader["armorid"]));
             }
-            conString.Close();
+            CloseConnection();
             return character;
 
         }
@@ -269,13 +269,13 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
-            conString.Open();
+            OpenConnection();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 prog = Convert.ToInt32(reader.Read());
             }
-            conString.Close();
+            CloseConnection();
             return prog;
         }
 
@@ -293,9 +293,9 @@ namespace KillerAppV2ASP.Models.DBO
             SqlCommand cmd = new SqlCommand("RepairDurability", conString);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@ItemID", ItemID));
-            conString.Open();
+            OpenConnection();
             cmd.ExecuteNonQuery();
-            conString.Close();
+            CloseConnection();
         }
         /// <summary>
         /// This method adds a character linked to a user into the database
@@ -312,9 +312,9 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.Parameters.Add(new SqlParameter("@ClassID", classid));
             cmd.Parameters.Add(new SqlParameter("@RaceID", raceid));
             cmd.Parameters.Add(new SqlParameter("@Name", name));
-            conString.Open();
+            OpenConnection();
                 cmd.ExecuteNonQuery();
-                conString.Close();
+                CloseConnection();
         }
         /// <summary>
         /// Get an item drop from the database
@@ -332,14 +332,53 @@ namespace KillerAppV2ASP.Models.DBO
             var returnParameter = cmd.Parameters.Add("@ItemName", SqlDbType.VarChar, 255);
             returnParameter.Direction = ParameterDirection.ReturnValue;
 
-            conString.Open();
+            OpenConnection();
 
             cmd.ExecuteNonQuery();
             var result = returnParameter.Value;
 
-            conString.Close();
+            CloseConnection();
 
             return Convert.ToInt32(result);
+        }
+
+        /// <summary>
+        /// Opens a connection to an SQL database.
+        /// </summary>
+        /// 
+        public bool OpenConnection()
+        {
+            var success = true;
+            try
+            {
+                conString.Open();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(@"Error while connecting to database: " + e.Message);
+                success = false;
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Opens a connection to an SQL database.
+        /// </summary>
+        public bool CloseConnection()
+        {
+            var success = true;
+            try
+            {
+                conString.Close();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(@"Error while disconnecting from database: " + e.Message);
+                success = false;
+            }
+
+            return success;
         }
     }
 }

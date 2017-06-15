@@ -34,6 +34,13 @@ namespace KillerAppV2ASP.Controllers
             return View(userview);
         }
 
+        public ActionResult Logout()
+        {
+            userview.Loggedin = false;
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
+
         public ActionResult RedirectToRpg()
         {
             GloballyAccessibleClass.Instance.testint = 5;
