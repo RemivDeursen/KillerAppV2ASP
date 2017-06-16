@@ -18,22 +18,32 @@ namespace KillerAppV2ASP.Controllers
             Loggedin = false,
             LoginMessage = "Log in aub."
         };
+
         // GET: Account
         public ActionResult Index()
         {
             return View(userview);
         }
-
+        /// <summary>
+        /// Opens the register page of the game
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Register()
         {
             return View("Register", userview);
         }
-        
+        /// <summary>
+        /// Opens the login page of the game.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
             return View(userview);
         }
-
+        /// <summary>
+        /// Logs the user out of the application
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Logout()
         {
             userview.Loggedin = false;
@@ -92,7 +102,7 @@ namespace KillerAppV2ASP.Controllers
             RPGRepository rpgrepo = new RPGRepository(rpgsql);
             rpgrepo.AddUserToDB(naam, pass);
 
-            return View(userview);
+            return RedirectToAction("Login");
         }
     }
 }

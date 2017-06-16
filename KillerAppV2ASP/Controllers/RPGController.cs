@@ -20,6 +20,11 @@ namespace KillerAppV2ASP.Controllers
         private EnemyViewModel _enemyViewModel = new EnemyViewModel();
         
         // GET: Character
+        /// <summary>
+        /// Load the page where the user can see all of the character linked to his userid.
+        /// </summary>
+        /// <param name="loginView"></param>
+        /// <returns></returns>
         public ActionResult Character(UserLoginViewModel loginView)
         {
             //Add characters from the logged in users to a view
@@ -36,7 +41,11 @@ namespace KillerAppV2ASP.Controllers
             return View(_charViewModel);
         }
         
-        
+        /// <summary>
+        /// Start the game with the given character id. The story and the events system also gets loaded here.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Play(int id)
         {
             RPGRepository rpgrepo = new RPGRepository(rpgct);
@@ -73,7 +82,10 @@ namespace KillerAppV2ASP.Controllers
             GloballyAccessibleClass.Instance.EventsSystem = new EventSystem();
             return View(eventsViewModel);
         }
-
+        /// <summary>
+        /// The player comes out of the combat screen and gets an item drop. His weapon also takes durability damage.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ReturnFromCombat()
         {
             RPGRepository rpgrepo = new RPGRepository(rpgct);
@@ -88,7 +100,11 @@ namespace KillerAppV2ASP.Controllers
 
             return RedirectToAction("Play", new {id = ids});
         }
-        
+        /// <summary>
+        /// This method uses the characters progressionid to show events linked to that id. It also uses this to redirect the user to combat if nessesary. 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public ActionResult RedirectToCommand(string command)
         {
             RPGRepository rpgrepo = new RPGRepository(rpgct);
@@ -175,12 +191,10 @@ namespace KillerAppV2ASP.Controllers
 
             return View("Play", GetEventsViewModel());
         }
-
-        public void changeProgression()
-        {
-            
-        }
-
+        /// <summary>
+        /// This method returns a created eventsviewmodel which loads its content from a database with the characterid stored in the session.
+        /// </summary>
+        /// <returns></returns>
         public EventsViewModel GetEventsViewModel()
         {
             RPGSQLContext rpgsqlContext = new RPGSQLContext();
@@ -197,14 +211,22 @@ namespace KillerAppV2ASP.Controllers
 
             return eventsViewModel;
         }
-
+        /// <summary>
+        /// This method show the user the character creation page.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
-            RPGSQLContext rpgsqlContext = new RPGSQLContext();
-            RPGRepository repo = new RPGRepository(rpgsqlContext);
+
             return View();
         }
-
+        /// <summary>
+        /// This method add a character to the database with the given parameters. it then redirect the user back to the character select screen.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="classid"></param>
+        /// <param name="raceid"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AddCharacter(string name, int classid, int raceid)
         {
@@ -215,6 +237,10 @@ namespace KillerAppV2ASP.Controllers
             return RedirectToAction("Character", _loginview);
         }
 
+        /// <summary>
+        /// This method loads the combat page and spawns 3 enemy's.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Combat()
         {
             if ((EnemyViewModel)Session["evm"] == null)
@@ -229,6 +255,13 @@ namespace KillerAppV2ASP.Controllers
             _enemyViewModel = (EnemyViewModel)Session["evm"];
             return View("Combat", _enemyViewModel);
         }
+
+        /// <summary>
+        /// This method does damage to the enemys spawned in the Combat method.
+        /// </summary>
+        /// <param name="dmg"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Damageunit(int dmg, int id)
         {

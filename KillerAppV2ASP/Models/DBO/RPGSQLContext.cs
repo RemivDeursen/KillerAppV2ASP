@@ -18,7 +18,11 @@ namespace KillerAppV2ASP.Models.DBO
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Returns the character from the database if the name matches the parameter name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Character GetCharacterByName(string name)
         {
             Character character = null;
@@ -345,7 +349,6 @@ namespace KillerAppV2ASP.Models.DBO
         /// <summary>
         /// Opens a connection to an SQL database.
         /// </summary>
-        /// 
         public bool OpenConnection()
         {
             var success = true;
