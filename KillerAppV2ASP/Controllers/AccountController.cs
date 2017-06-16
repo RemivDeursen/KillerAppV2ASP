@@ -24,6 +24,7 @@ namespace KillerAppV2ASP.Controllers
         {
             return View(userview);
         }
+
         /// <summary>
         /// Opens the register page of the game
         /// </summary>
@@ -32,6 +33,7 @@ namespace KillerAppV2ASP.Controllers
         {
             return View("Register", userview);
         }
+
         /// <summary>
         /// Opens the login page of the game.
         /// </summary>
@@ -40,6 +42,7 @@ namespace KillerAppV2ASP.Controllers
         {
             return View(userview);
         }
+
         /// <summary>
         /// Logs the user out of the application
         /// </summary>
@@ -51,11 +54,16 @@ namespace KillerAppV2ASP.Controllers
             return RedirectToAction("Login");
         }
 
+        /// <summary>
+        /// Redirect the user to the character select screen
+        /// </summary>
+        /// <returns></returns>
         public ActionResult RedirectToRpg()
         {
             GloballyAccessibleClass.Instance.testint = 5;
             return RedirectToAction("Character", "RPG", userview);
         }
+
         /// <summary>
         /// This method runs the username and password through the repositorys login verification query.
         /// </summary>

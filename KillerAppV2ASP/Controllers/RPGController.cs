@@ -19,7 +19,6 @@ namespace KillerAppV2ASP.Controllers
         private RPGSQLContext rpgct = new RPGSQLContext();
         private EnemyViewModel _enemyViewModel = new EnemyViewModel();
         
-        // GET: Character
         /// <summary>
         /// Load the page where the user can see all of the character linked to his userid.
         /// </summary>
@@ -82,6 +81,7 @@ namespace KillerAppV2ASP.Controllers
             GloballyAccessibleClass.Instance.EventsSystem = new EventSystem();
             return View(eventsViewModel);
         }
+
         /// <summary>
         /// The player comes out of the combat screen and gets an item drop. His weapon also takes durability damage.
         /// </summary>
@@ -100,6 +100,7 @@ namespace KillerAppV2ASP.Controllers
 
             return RedirectToAction("Play", new {id = ids});
         }
+
         /// <summary>
         /// This method uses the characters progressionid to show events linked to that id. It also uses this to redirect the user to combat if nessesary. 
         /// </summary>
@@ -191,6 +192,7 @@ namespace KillerAppV2ASP.Controllers
 
             return View("Play", GetEventsViewModel());
         }
+
         /// <summary>
         /// This method returns a created eventsviewmodel which loads its content from a database with the characterid stored in the session.
         /// </summary>
@@ -211,6 +213,7 @@ namespace KillerAppV2ASP.Controllers
 
             return eventsViewModel;
         }
+
         /// <summary>
         /// This method show the user the character creation page.
         /// </summary>
@@ -220,6 +223,7 @@ namespace KillerAppV2ASP.Controllers
 
             return View();
         }
+
         /// <summary>
         /// This method add a character to the database with the given parameters. it then redirect the user back to the character select screen.
         /// </summary>

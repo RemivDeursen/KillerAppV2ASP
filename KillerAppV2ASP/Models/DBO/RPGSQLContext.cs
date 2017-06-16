@@ -18,6 +18,7 @@ namespace KillerAppV2ASP.Models.DBO
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Returns the character from the database if the name matches the parameter name
         /// </summary>
@@ -44,6 +45,7 @@ namespace KillerAppV2ASP.Models.DBO
             CloseConnection();
             return character;
         }
+
         /// <summary>
         /// Gets the a character from the users table in the database
         /// </summary>
@@ -70,6 +72,7 @@ namespace KillerAppV2ASP.Models.DBO
             CloseConnection();
             return returnlist;
         }
+
         /// <summary>
         /// Gets the players inventory from the given character id
         /// </summary>
@@ -85,7 +88,7 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.Parameters.AddWithValue("@id", id);
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
-            
+
             OpenConnection();
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -95,6 +98,7 @@ namespace KillerAppV2ASP.Models.DBO
             CloseConnection();
             return items;
         }
+
         /// <summary>
         /// Gets a specific item from the database with the given id
         /// </summary>
@@ -120,6 +124,7 @@ namespace KillerAppV2ASP.Models.DBO
             CloseConnection();
             return itm;
         }
+
         /// <summary>
         /// Executes a procedure that does damage to a item 
         /// </summary>
@@ -138,6 +143,7 @@ namespace KillerAppV2ASP.Models.DBO
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// This method gets the story text and action names from the database
         /// </summary>
@@ -163,6 +169,7 @@ namespace KillerAppV2ASP.Models.DBO
             CloseConnection();
             return returnlist;
         }
+
         /// <summary>
         /// This method uses the username and password given to check if they match an account in the database
         /// </summary>
@@ -174,25 +181,26 @@ namespace KillerAppV2ASP.Models.DBO
             bool succes = false;
             using (SqlConnection conn = new SqlConnection("Server=192.168.20.5;Database=KILLERAPREMI;User Id = sa; Password=Admin;"))
             {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand("select count(*) from Users where UserName = @uname and Password = @upw", conn);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select count(*) from Users where UserName = @uname and Password = @upw", conn);
 
-                    cmd.Parameters.AddWithValue("@uname", username);
-                    cmd.Parameters.AddWithValue("@upw", password);
+                cmd.Parameters.AddWithValue("@uname", username);
+                cmd.Parameters.AddWithValue("@upw", password);
 
-                    int result = (int)cmd.ExecuteScalar();
-                    if (result > 0)
-                    {
-                        succes = true;
-                    }
-                    else
-                    {
-                        succes = false;
+                int result = (int)cmd.ExecuteScalar();
+                if (result > 0)
+                {
+                    succes = true;
+                }
+                else
+                {
+                    succes = false;
                 }
             }
 
             return succes;
         }
+
         /// <summary>
         /// This method returns the userId of the account given
         /// </summary>
@@ -209,12 +217,13 @@ namespace KillerAppV2ASP.Models.DBO
                 cmd.Parameters.AddWithValue("@uname", username);
                 cmd.Parameters.AddWithValue("@upw", password);
 
-                
+
                 int userid = (int)cmd.ExecuteScalar();
                 return userid;
             }
-            
+
         }
+
         /// <summary>
         /// This method adds a useraccount made by the user to the database
         /// </summary>
@@ -223,7 +232,7 @@ namespace KillerAppV2ASP.Models.DBO
         public void AddUserToDB(string naam, string password)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "insert into [dbo].[Users] (UserName, Password)\r\nvalues (\'" + naam +"\', \'" + password + "\')";
+            cmd.CommandText = "insert into [dbo].[Users] (UserName, Password)\r\nvalues (\'" + naam + "\', \'" + password + "\')";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conString;
 
@@ -231,6 +240,7 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.ExecuteReader();
             CloseConnection();
         }
+
         /// <summary>
         /// This method gets the character info ascociated with the given id
         /// </summary>
@@ -301,6 +311,7 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.ExecuteNonQuery();
             CloseConnection();
         }
+
         /// <summary>
         /// This method adds a character linked to a user into the database
         /// </summary>
@@ -317,9 +328,10 @@ namespace KillerAppV2ASP.Models.DBO
             cmd.Parameters.Add(new SqlParameter("@RaceID", raceid));
             cmd.Parameters.Add(new SqlParameter("@Name", name));
             OpenConnection();
-                cmd.ExecuteNonQuery();
-                CloseConnection();
+            cmd.ExecuteNonQuery();
+            CloseConnection();
         }
+
         /// <summary>
         /// Get an item drop from the database
         /// </summary>
